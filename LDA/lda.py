@@ -12,10 +12,10 @@ import json
 tokenizer = RegexpTokenizer(r'\w+')
 
 # create English stop words list
-en_stop = get_stop_words('en')
+enStop = get_stop_words('en')
 
-# Create p_stemmer of class PorterStemmer
-p_stemmer = PorterStemmer()
+# Create pStem of class PorterStemmer
+pStem = PorterStemmer()
 
 def readFile():
     with open('twitter/file/result.json', 'r', encoding='utf8') as f:
@@ -25,12 +25,26 @@ def readFile():
 
 def modeling():
     data = readFile()
-    # texts = []
+    texts = []
 
     for i in data:
         raw = data[i].lower()
         tokens = tokenizer.tokenize(raw)
-        print(tokens)
+
+        tokenStop = [i for i in tokens if not i in enStop]
+        
+        tokenStem = [pStem.stem(i) for i in tokenStop]
+
+        texts.append(tokenStem)
+    
+    ldaModel(texts)
+    
+
+def ldaModel(texts):
+    dictionary = corpora.Dictionary(texts)
+    corpus = [dictionary.doc2bow(text) for text in texts]
+    ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=2, id2word = dictionary, passes=20)
+    print(ldamodel.print_topics(num_topics=2, num_words=4))
 
 if __name__ == "__main__":
     modeling()

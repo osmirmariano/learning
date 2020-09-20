@@ -2,6 +2,7 @@
 
 import tweepy as tw
 import pandas as pd
+import re
 
 # Method for authantication with twitter
 def auth():
