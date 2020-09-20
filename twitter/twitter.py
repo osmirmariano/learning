@@ -3,6 +3,7 @@
 import tweepy as tw
 import pandas as pd
 
+# Method for authantication with twitter
 def auth():
     with open('file/tokens.txt', 'r') as tfile:
         consumer_key = tfile.readline().strip('\n')
@@ -16,6 +17,7 @@ def auth():
     api = tw.API(auth_user)
     return api
 
+# Method for get message of twitter
 def getMessage():
     api = auth()
     
@@ -41,5 +43,6 @@ def getMessage():
     dfTweets.head()
     dfTweets.to_json('file/result.json')
 
+# Main
 if __name__ == '__main__':
     getMessage()
