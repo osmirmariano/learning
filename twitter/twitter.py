@@ -23,7 +23,7 @@ def getMessage():
     api = auth()
     
     querySearch = '#CORONAVIRUS #COVID19 ' + '-filter:retweet'
-    tweets = tw.Cursor(api.search, q=querySearch).items(100)
+    tweets = tw.Cursor(api.search, q=querySearch,  lang="pt").items(100)
     
     # Creating directory
     tweetsDict = {}
@@ -42,7 +42,7 @@ def getMessage():
                 tweetsDict[key] = [twKey]
     dfTweets = pd.DataFrame.from_dict(tweetsDict)
     dfTweets.head()
-    dfTweets.to_json('file/result.json')
+    dfTweets.to_json('result.json')
 
 # Main
 if __name__ == '__main__':
